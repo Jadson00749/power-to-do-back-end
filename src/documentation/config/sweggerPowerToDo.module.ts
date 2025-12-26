@@ -17,7 +17,7 @@ export class SwaggerPowerToDoModule {
       include: [TasksModule]
     });
 
-    SwaggerModule.setup('power-to-do-nest-apis', app, tasksDocument);
+    SwaggerModule.setup('swagger', app, tasksDocument);
 
     return {
       module: SwaggerPowerToDoModule,
