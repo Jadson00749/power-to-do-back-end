@@ -172,15 +172,70 @@ pm2 startup
 
 ## 🐛 Troubleshooting
 
-### Erro: "JwtStrategy requires a secret or key"
+### Erro: "JWT_KEY não está definida nas variáveis de ambiente!"
 
-**Causa:** Variável `JWT_KEY` não está sendo lida
+**Causa:** Variável `JWT_KEY` não está sendo lida pelo NestJS
 
-**Solução:**
-1. Verifique se as variáveis estão configuradas no painel do Hostinger
-2. Se usando Docker, recrie o container: `./build.sh`
-3. Verifique os logs: `docker logs nest-apis-backend`
-4. Confirme que o arquivo `.env` existe no servidor (se não usar Docker)
+**Diagnóstico:**
+Verifique os logs da aplicação. Você deve ver mensagens como:
+```
+🔍 Verificando variáveis de ambiente:
+DB HOST: mysql.hostinger.com
+DB USER: u599673811_user
+JWT_KEY exists: true
+JWT_KEY length: 43
+🔑 JwtModule - Carregando JWT_KEY...
+ConfigService JWT_KEY: true
+process.env.JWT_KEY: true
+✅ JWT_KEY carregada no JwtModule (length: 43)
+```
+
+**Solução 1: Verificar variáveis no Hostinger**
+1. No painel do Hostinger, vá em **Variáveis de ambiente**
+2. Confirme que `JWT_KEY` está listada e tem um valor
+3. Clique em **Salvar e reimplantar**
+4. Aguarde o redeploy completar
+
+**Solução 2: Se as variáveis não estão sendo exportadas**
+
+O Hostinger pode precisar que você configure o script de inicialização. No painel:
+
+1. Vá em **Configurações** > **Avançado**
+2. Adicione um script `pre-start.sh`:
+
+```bash
+#!/bin/bash
+echo "Exportando variáveis de ambiente..."
+export JWT_KEY="${JWT_KEY}"
+export DB_HOST="${DB_HOST}"
+export DB_PORT="${DB_PORT}"
+export DB_USERNAME="${DB_USERNAME}"
+export DB_NAME="${DB_NAME}"
+export DB_PASSWORD="${DB_PASSWORD}"
+```
+
+3. Salve e redeploy
+
+**Solução 3: Criar .env diretamente no servidor**
+Via SSH:
+```bash
+cd /caminho/do/projeto
+cat > .env << EOF
+JWT_KEY=5DvsHylsgO823zdwPwpOSFaAwNJPveVuO//bKqwSx7A=
+DB_HOST=mysql.hostinger.com
+DB_PORT=3306
+DB_USERNAME=u599673811_user
+DB_NAME=u599673811_power_to_do
+DB_PASSWORD=Jadson76042!!
+LOCAL_SERVER=production
+EOF
+```
+
+Depois execute:
+```bash
+npm run build
+npm run start:prod
+```
 
 ### Erro: Database Connection Failed
 

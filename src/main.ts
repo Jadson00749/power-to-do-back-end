@@ -23,8 +23,11 @@ async function bootstrap() {
 
   process.on('uncaughtException', err => console.error('❌ Uncaught:', err));
   process.on('unhandledRejection', err => console.error('❌ Unhandled:', err));
+  console.log('🔍 Verificando variáveis de ambiente:');
   console.log('DB HOST:', process.env.DB_HOST);
   console.log('DB USER:', process.env.DB_USERNAME);
+  console.log('JWT_KEY exists:', !!process.env.JWT_KEY);
+  console.log('JWT_KEY length:', process.env.JWT_KEY?.length || 0);
 
 
   SwaggerPowerToDoModule.setupSwagger(app)

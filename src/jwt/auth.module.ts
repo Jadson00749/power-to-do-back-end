@@ -16,10 +16,21 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
     JwtModule.registerAsync({
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => {
-        const secret = configService.get<string>('JWT_KEY');
+        // Tenta pegar do ConfigService primeiro, senão usa process.env diretamente
+        const secret = configService.get<string>('JWT_KEY') || process.env.JWT_KEY;
+        
+        console.log('🔑 JwtModule - Carregando JWT_KEY...');
+        console.log('ConfigService JWT_KEY:', !!configService.get<string>('JWT_KEY'));
+        console.log('process.env.JWT_KEY:', !!process.env.JWT_KEY);
+        
         if (!secret) {
+          console.error('❌ JWT_KEY não encontrada!');
+          console.error('Todas as variáveis de ambiente:', Object.keys(process.env));
           throw new Error('JWT_KEY não está definida nas variáveis de ambiente!');
         }
+        
+        console.log('✅ JWT_KEY carregada no JwtModule (length:', secret.length, ')');
+        
         return {
           secret: secret,
           signOptions: { expiresIn: '30m' },

@@ -13,7 +13,8 @@ import { ScheduleModule } from '@nestjs/schedule';
     AuthModule,
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: '.env',
+      ignoreEnvFile: false, // Tenta carregar .env se existir, mas não falha se não existir
+      expandVariables: true,
     }),
     ScheduleModule.forRoot(),
     forwardRef(() => TasksModule),
