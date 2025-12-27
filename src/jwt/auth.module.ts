@@ -10,14 +10,21 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Module({
   imports: [
+    ConfigModule,
     TypeOrmModule.forFeature([UsersEntity]),
     PassportModule,
     JwtModule.registerAsync({
       imports: [ConfigModule],
-      useFactory: async (configService: ConfigService) => ({
-        secret: configService.get<string>('JWT_KEY'),
-        signOptions: { expiresIn: '30m' },
-      }),
+      useFactory: async (configService: ConfigService) => {
+        const secret = configService.get<string>('JWT_KEY');
+        if (!secret) {
+          throw new Error('JWT_KEY não está definida nas variáveis de ambiente!');
+        }
+        return {
+          secret: secret,
+          signOptions: { expiresIn: '30m' },
+        };
+      },
       inject:[ConfigService]
     }),
   ],

@@ -14,7 +14,6 @@ FROM node:18
 WORKDIR /app
 COPY --from=builder /app/dist /app/dist
 COPY --from=builder /app/package*.json /app/
-COPY .env .env
 RUN npm install --production
 EXPOSE 4099
 CMD ["npm", "run", "start:prod"]
