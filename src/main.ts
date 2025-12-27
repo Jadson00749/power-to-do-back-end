@@ -23,6 +23,9 @@ async function bootstrap() {
 
   process.on('uncaughtException', err => console.error('❌ Uncaught:', err));
   process.on('unhandledRejection', err => console.error('❌ Unhandled:', err));
+  console.log('DB HOST:', process.env.DB_HOST);
+  console.log('DB USER:', process.env.DB_USERNAME);
+
 
   SwaggerPowerToDoModule.setupSwagger(app)
   app.use(express.json({ limit: '10mb' }))
