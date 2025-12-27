@@ -19,7 +19,7 @@ export class TasksDetailsEntity {
   @Column({ name: 'FILE_TYPE', type: 'varchar' })
   type:string
 
-  @Column({ name: 'FILE_CONTENT', type: 'bytea' })
+  @Column({ name: 'FILE_CONTENT', type: 'longblob' })
   content:Buffer | string
 
   @ManyToOne(() => TasksEntity, (task) => task.files)

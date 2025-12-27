@@ -17,18 +17,6 @@ import { ScheduleModule } from '@nestjs/schedule';
     }),
     ScheduleModule.forRoot(),
     forwardRef(() => TasksModule),
-
-    ...(process.env.DATABASE_URL
-      ? [
-          TypeOrmModule.forRoot({
-            type: 'postgres',
-            url: process.env.DATABASE_URL,
-            entities: [...taskEntity],
-            synchronize: false,
-            ssl: { rejectUnauthorized: false },
-          }),
-        ]
-      : [
           TypeOrmModule.forRoot({
             type: 'mariadb',
             host: process.env.DB_HOST,
@@ -39,7 +27,6 @@ import { ScheduleModule } from '@nestjs/schedule';
             entities: [...taskEntity],
             synchronize: false,
           }),
-        ]),
   ],
   providers: [
     {

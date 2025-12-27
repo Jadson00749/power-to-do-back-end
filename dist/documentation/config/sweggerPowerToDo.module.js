@@ -22,7 +22,7 @@ let SwaggerPowerToDoModule = SwaggerPowerToDoModule_1 = class SwaggerPowerToDoMo
         const tasksDocument = swagger_1.SwaggerModule.createDocument(app, tasksConfig, {
             include: [tasks_module_1.TasksModule]
         });
-        swagger_1.SwaggerModule.setup('power-to-do-nest-apis', app, tasksDocument);
+        swagger_1.SwaggerModule.setup('swagger', app, tasksDocument);
         return {
             module: SwaggerPowerToDoModule_1,
         };

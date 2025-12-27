@@ -36,7 +36,7 @@ __decorate([
     __metadata("design:type", String)
 ], TasksDetailsEntity.prototype, "type", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ name: 'FILE_CONTENT', type: 'bytea' }),
+    (0, typeorm_1.Column)({ name: 'FILE_CONTENT', type: 'longblob' }),
     __metadata("design:type", Object)
 ], TasksDetailsEntity.prototype, "content", void 0);
 __decorate([

@@ -29,28 +29,16 @@ exports.AppModule = AppModule = __decorate([
             }),
             schedule_1.ScheduleModule.forRoot(),
             (0, common_1.forwardRef)(() => tasks_module_1.TasksModule),
-            ...(process.env.DATABASE_URL
-                ? [
-                    typeorm_1.TypeOrmModule.forRoot({
-                        type: 'postgres',
-                        url: process.env.DATABASE_URL,
-                        entities: [...tasks_index_1.taskEntity],
-                        synchronize: false,
-                        ssl: { rejectUnauthorized: false },
-                    }),
-                ]
-                : [
-                    typeorm_1.TypeOrmModule.forRoot({
-                        type: 'mariadb',
-                        host: process.env.DB_HOST,
-                        port: Number(process.env.DB_PORT || 3306),
-                        username: process.env.DB_USERNAME,
-                        password: process.env.DB_PASSWORD,
-                        database: process.env.DB_NAME,
-                        entities: [...tasks_index_1.taskEntity],
-                        synchronize: false,
-                    }),
-                ]),
+            typeorm_1.TypeOrmModule.forRoot({
+                type: 'mariadb',
+                host: process.env.DB_HOST,
+                port: Number(process.env.DB_PORT || 3306),
+                username: process.env.DB_USERNAME,
+                password: process.env.DB_PASSWORD,
+                database: process.env.DB_NAME,
+                entities: [...tasks_index_1.taskEntity],
+                synchronize: false,
+            }),
         ],
         providers: [
             {
